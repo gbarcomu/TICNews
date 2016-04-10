@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <base href="${pageContext.request.contextPath}/">
-<title>Login</title>
+<title>Editar Noticia</title>
 <link type="text/css" rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet"
 	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -20,29 +20,32 @@
 	<main>
 	<div class="formulario">
 
-		<form action="public/Login" method="post">
+		<form action="private/EditStory?newsID=${news.id}" method="post">
 
 			<div>
-				<label for="username">Nombre de Usuario</label> <input type="text"
-					name="username" id="username">
+				<label for="title">Titulo</label> <input type="text" name="title"
+					id="title" value="${news.title}">
 			</div>
 
 			<div>
-				<label for="password">Password</label> <input type="password"
-					name="password" id="password">
+				<label for="url">Link a la noticia</label> <input type="url"
+					name="url" id="url" value="${news.url}">
 			</div>
 
 			<div>
-				<input type="submit" value="Entrar" class="button">
+				<label for="text">Contenido</label>
+				<textarea name="text" id="text">${news.text}</textarea>
+			</div>
+
+			<div>
+				<input type="submit" value="Editar" class="button">
 			</div>
 		</form>
-
-		<p>${messages}</p>
-
 	</div>
 	</main>
 
 	<jsp:include page="/WEB-INF/footer.jsp" />
+
 </body>
 
 

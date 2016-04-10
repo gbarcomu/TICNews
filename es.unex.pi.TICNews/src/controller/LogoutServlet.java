@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = { "/LogoutServlet" })
-public class LogoutServlet extends HttpServlet{
+@WebServlet(urlPatterns = { "/private/Logout" })
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-    public LogoutServlet() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if (session != null)
-			session.invalidate();
-		response.sendRedirect("ListNewsServlet");
+	public LogoutServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest _request, HttpServletResponse _response)
+			throws ServletException, IOException {
+		
+		HttpSession session = _request.getSession(false);
+		session.invalidate();
+		_response.sendRedirect(_request.getContextPath()+"/Index");
 	}
 }

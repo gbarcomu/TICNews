@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.Connection;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,21 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.CommentDAO;
-import dao.JDBCCommentDAOImpl;
+import dao.JDBCNewsDAOImpl;
+import dao.NewsDAO;
 import helper.MyLogger;
-import model.Comment;
+import model.News;
 import model.User;
 
-@WebServlet("/private/Comment")
-public class CreateCommentServlet extends HttpServlet {
+@WebServlet("/private/NewStory")
+public class CreateStoryServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private HttpSession session;
-	
-	public CreateCommentServlet() {
+
+	public CreateStoryServlet() {
 
 		super();
 	}
@@ -32,45 +33,50 @@ public class CreateCommentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest _request, HttpServletResponse _response)
 			throws ServletException, IOException {
 
-		_response.sendRedirect(_request.getContextPath()+"/Index");
+		RequestDispatcher view = _request.getRequestDispatcher("/WEB-INF/sendStory.jsp");
+		view.forward(_request, _response);
 	}
 
 	protected void doPost(HttpServletRequest _request, HttpServletResponse _response)
 			throws ServletException, IOException {
-
+		
 		request = _request;
 		response = _response;
 		session = request.getSession();
-		
-		CommentDAO commentDao = createCommentDAO();
-		Comment comment = createComment();
-		commentDao.add(comment);
-		
-		MyLogger.logMessage("Comment created, ID: " + comment.getId());
 
-		response.sendRedirect(request.getContextPath()+"/Story?id=" + Long.parseLong(request.getParameter("newsID")));
+		NewsDAO newsDao = createNewsDAO();
+		News news = createNews();
+		newsDao.add(news);
+		
+		MyLogger.logMessage("Story created, ID: " + news.getId());
+
+		response.sendRedirect(request.getContextPath()+"/Index");
 	}
 	
-	private CommentDAO createCommentDAO() {
+	private NewsDAO createNewsDAO() {
 		
 		Connection conn = (Connection) getServletContext().getAttribute("dbConn");
-		CommentDAO commentDao = new JDBCCommentDAOImpl();
-		commentDao.setConnection(conn);
+		NewsDAO newsDao = new JDBCNewsDAOImpl();
+		newsDao.setConnection(conn);
 		
-		return commentDao;
+		return newsDao;
 	}
 	
-	private Comment createComment() {
+	private News createNews() {
 		
-		String text = request.getParameter("nuevoComent");
+		News news = new News();
+		
+		String title = request.getParameter("title");
+		String url = request.getParameter("url");
+		String text = request.getParameter("text");
 		User user = (User) session.getAttribute("registredUser");
-		Long newsID = Long.parseLong(request.getParameter("newsID"));
 		
-		Comment comment = new Comment();
-		comment.setText(text);
-		comment.setNews(newsID);
-		comment.setOwner(user.getId());
+		news.setTitle(title);
+		news.setUrl(url);
+		news.setText(text);
+		news.setLikes(0);
+		news.setOwner(user.getId());
 		
-		return comment;
+		return news;
 	}
 }

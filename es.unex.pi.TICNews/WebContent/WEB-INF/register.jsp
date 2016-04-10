@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <base href="${pageContext.request.contextPath}/">
-<title>Login</title>
+<title>Registro</title>
 <link type="text/css" rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet"
 	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -20,7 +20,9 @@
 	<main>
 	<div class="formulario">
 
-		<form action="public/Login" method="post">
+		<p>${messages}</p>
+
+		<form action="public/Register" method="post">
 
 			<div>
 				<label for="username">Nombre de Usuario</label> <input type="text"
@@ -33,16 +35,24 @@
 			</div>
 
 			<div>
-				<input type="submit" value="Entrar" class="button">
+				<label for="passwordRepeated">Password</label> <input
+					type="password" name="passwordRepeated" id="passwordRepeated">
+			</div>
+
+			<div>
+				<label for="email">Email</label> <input type="email" name="email"
+					id="email">
+			</div>
+
+			<div>
+				<input type="submit" value="Registrate" class="button">
 			</div>
 		</form>
-
-		<p>${messages}</p>
-
 	</div>
 	</main>
 
 	<jsp:include page="/WEB-INF/footer.jsp" />
+
 </body>
 
 

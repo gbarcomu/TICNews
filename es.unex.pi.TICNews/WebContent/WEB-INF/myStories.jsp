@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <base href="${pageContext.request.contextPath}/">
-<title>Login</title>
+<title>Mis Noticias</title>
 <link type="text/css" rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet"
 	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -17,33 +17,31 @@
 
 	<jsp:include page="/WEB-INF/menu.jsp" />
 
-	<main>
-	<div class="formulario">
+	<main> <c:forEach var="newsList" items="${newsList}">
 
-		<form action="public/Login" method="post">
+		<article>
 
-			<div>
-				<label for="username">Nombre de Usuario</label> <input type="text"
-					name="username" id="username">
+			<h1>
+				<a href=${newsList.url}>${newsList.title}</a>
+			</h1>
+
+			<p>${newsList.text}</p>
+			<div class="feedback">
+
+				<span class="comentarios"><a
+					href="<c:url value='Story?id=${newsList.id}'/>">comentarios</a></span> <span
+					class="edit"><a
+					href="<c:url value='private/EditStory?id=${newsList.id}'/>"> <i
+						class="fa fa-pencil-square-o"></i> editar
+				</a></span>
+
 			</div>
 
-			<div>
-				<label for="password">Password</label> <input type="password"
-					name="password" id="password">
-			</div>
-
-			<div>
-				<input type="submit" value="Entrar" class="button">
-			</div>
-		</form>
-
-		<p>${messages}</p>
-
-	</div>
-	</main>
+		</article>
+	</c:forEach> </main>
 
 	<jsp:include page="/WEB-INF/footer.jsp" />
-</body>
 
+</body>
 
 </html>
