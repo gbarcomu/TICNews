@@ -21,7 +21,7 @@
 		<article>
 
 			<h1>
-				<a href=${newsmap.key.url}>${newsmap.key.title}</a>
+				<a href="<c:url value='${newsmap.key.url}'/>">${newsmap.key.title}</a>
 			</h1>
 			<p>
 				enviado por <a

@@ -23,7 +23,7 @@
 	<article>
 
 		<h1>
-			<a href=${news.url}>${news.title}</a>
+			<a href="<c:url value='${news.url}'/>">${news.title}</a>
 		</h1>
 
 		<p>

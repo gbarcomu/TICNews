@@ -1,4 +1,5 @@
-package listener;
+
+package daoTest;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -8,22 +9,11 @@ import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 
-
-// Descomentar si se se va a usar un Listener para iniciar la conexi�n:
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.annotation.WebListener;
-
-@WebListener
-public class ServletContextListener implements javax.servlet.ServletContextListener {
-
-
+public class DBConnection {
 	
-	private static final Logger logger = Logger.getLogger(ServletContextListener.class.getName());
-	
+	private static final Logger logger = Logger.getLogger(DBConnection.class.getName());
 
-	public void contextInitialized(ServletContextEvent event) {
-
+	public Connection create(){
 		
 		logger.info("Creating DB");
 		Connection conn = null;
@@ -31,16 +21,13 @@ public class ServletContextListener implements javax.servlet.ServletContextListe
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
 		} catch (ClassNotFoundException e) {
-
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
-
-			ServletContext sc = event.getServletContext();
-		
-//			conn = DriverManager.getConnection("jdbc:hsqldb:file:" + sc.getRealPath("WEB-INF/news/"),"sa","");
-			conn = DriverManager.getConnection("jdbc:hsqldb:mem:/localhost/news","sa", "");
+			
+			conn = DriverManager.getConnection("jdbc:hsqldb:mem:/localhost/news1","sa","");
 
 			Statement stmt = conn.createStatement();
 			
@@ -83,10 +70,10 @@ public class ServletContextListener implements javax.servlet.ServletContextListe
 			
 			
 			
-			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category,likes) "
+			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category) "
 					+ "SELECT 0,'Emperador de EEUU o Rey de Alemania: personajes que se atribuyeron un cargo rimbombante por la cara',"
 					+ "'De toda la vida ha habido gente a la que le han dado un cargo de autoridad y lo ha ejercido con orgullo. El poder atrae, y por eso tambien hay quienes, a pesar de no haber recibido cargo alguno, se han autoproclamado sultanes, gobernadores o emperadores de la forma mas extravagante posible.',"
-					+ "'http://www.cookingideas.es/by-the-face-20160307.html','ocio',25 "
+					+ "'http://www.cookingideas.es/by-the-face-20160307.html','ocio' "
 					+ "FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from News where id=0)  LIMIT 1");
 			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category) "
 					+ "SELECT 1,'Un dron de Hacienda descubre 2.500 viviendas ilegales en Menorca',"
@@ -115,27 +102,20 @@ public class ServletContextListener implements javax.servlet.ServletContextListe
 					+ "SELECT 0,1,'Y tanto' "
 					+ "FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from Comment where id=4)  LIMIT 1");
 			
-			sc.setAttribute("dbConn", conn);
-			
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		}                     
 		
 		logger.info("DB created");
 		
-		//return conn;
+		return conn;
 	}
-	
-
-    public void contextDestroyed(ServletContextEvent arg0)  { 
+	 
+	public void destroy(Connection conn){
 		
 		logger.info("Destroying DB");
 		try {
 			logger.info("DB shutdown start");
-
-	   		ServletContext sc = arg0.getServletContext();
-	   		Connection conn = (Connection) sc.getAttribute("dbConn");
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("SHUTDOWN");
 			conn.close();
@@ -153,11 +133,13 @@ public class ServletContextListener implements javax.servlet.ServletContextListe
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+			
+		} 
 		
 		logger.info("DB destroyed");
+		
+		
 	}
 
 	
