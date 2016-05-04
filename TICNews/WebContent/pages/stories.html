@@ -1,0 +1,24 @@
+<main ng-repeat="story in vm.stories">
+	<article>
+
+		<h1>
+			<a ng-href="{{story.key.url}}">{{story.key.title}}</a>
+		</h1>
+		<p>
+			enviado por <a
+				href="#"
+				class="enviadoPor">{{story.value.name}}</a>:
+		</p>
+		<p>{{story.key.text}}</p>
+
+		<div class="feedback">
+
+			<span class="comentarios"><a
+				ng-href="#/story/{{ story.key.id }}">comentarios</a></span> <span
+				class="like"><i class="fa fa-thumbs-o-up"></i></span> <span
+				class="dislike"><i class="fa fa-thumbs-o-down"></i></span> <span>{{story.key.likes}}</span>
+
+		</div>
+
+	</article>
+</main>

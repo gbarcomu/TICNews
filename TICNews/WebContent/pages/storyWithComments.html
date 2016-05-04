@@ -1,0 +1,27 @@
+<main>
+<article>
+
+	<h1>
+		<a ng-href="{{vm.story.url}}">{{vm.story.title}}</a>
+	</h1>
+	<p>
+		enviado por <a href="#" class="enviadoPor">Pepe</a>:
+	</p>
+	<p>{{vm.story.text}}</p>
+
+	<div ng-repeat="comment in vm.comments">
+
+		<div class="comentary">
+
+			<h2>
+				<a
+					href="#">Pepe</a>
+			</h2>
+
+			<p>{{comment.key.text}}</p>
+
+		</div>
+	</div>
+
+</article>
+</main>
