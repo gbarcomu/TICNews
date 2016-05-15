@@ -8,12 +8,17 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import dao.JDBCNewsDAOImpl;
@@ -72,10 +77,60 @@ public class ListStoriesRest {
 			news.setDateStamp(null);
 			news.setTimeStamp(null);
 			User user = userDAO.get(news.getOwner());
+			user.setPassword(null);
 			newsMap.put(news, user);
 
 		}
 
 		return newsMap;
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response post(News story, @Context HttpServletRequest request) throws Exception {
+		
+		Connection conn = (Connection) sc.getAttribute("dbConn");
+		NewsDAO newsDao = new JDBCNewsDAOImpl();
+		newsDao.setConnection(conn);
+
+		newsDao.add(story);
+		return null;
+	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response put(News story, @Context HttpServletRequest request) throws Exception {
+		
+		Connection conn = (Connection) sc.getAttribute("dbConn");
+		NewsDAO newsDao = new JDBCNewsDAOImpl();
+		newsDao.setConnection(conn);
+
+		newsDao.delete(story.getId());	
+		newsDao.add(editNews(story));
+		return null;
+	}
+	
+	private News editNews(News oldNews) {
+
+		News story = new News();
+		story.setTitle(oldNews.getTitle());
+		story.setUrl(oldNews.getUrl());
+		story.setText(oldNews.getText());
+		story.setOwner(oldNews.getOwner());
+
+		return story;
+	}
+	
+	@DELETE
+	@Path("/{id: [0-9]+}")
+	public Response delete(@PathParam("id") long IDStory, @Context HttpServletRequest request) {
+
+		Connection conn = (Connection) sc.getAttribute("dbConn");
+		NewsDAO newsDao = new JDBCNewsDAOImpl();
+		newsDao.setConnection(conn);
+		System.out.println(IDStory);
+		newsDao.delete(IDStory);
+		
+		return null;
 	}
 }

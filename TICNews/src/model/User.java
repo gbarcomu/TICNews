@@ -6,6 +6,14 @@ public class User {
 	private String email;
 	private String password;
 	
+	public User() {
+		
+		name = null;
+		email = null;
+		password = null;
+		id = -1;
+	}
+	
 	public long getId() {
 		return id;
 	}

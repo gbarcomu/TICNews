@@ -8,19 +8,25 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import dao.CommentDAO;
 import dao.JDBCCommentDAOImpl;
+import dao.JDBCNewsDAOImpl;
 import dao.JDBCUserDAOImpl;
+import dao.NewsDAO;
 import dao.UserDAO;
 import model.Comment;
+import model.News;
 import model.User;
 
 @Path("/comments")
@@ -56,9 +62,22 @@ public class ListCommentsRest {
 			comment.setDateStamp(null);
 			comment.setTimeStamp(null);
 			User user = userDao.get(comment.getOwner());
+			user.setPassword(null);
 			commentsWithUser.put(comment, user);
 		}
 		
 		return commentsWithUser;
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response post(Comment comment, @Context HttpServletRequest request) throws Exception {
+		
+		Connection conn = (Connection) sc.getAttribute("dbConn");
+		CommentDAO commentDao = new JDBCCommentDAOImpl();
+		commentDao.setConnection(conn);
+
+		commentDao.add(comment);
+		return null;
 	}
 }

@@ -37,8 +37,6 @@
 			</div>
 		</form>
 
-		<p>${messages}</p>
-
 	</div>
 	</main>
 

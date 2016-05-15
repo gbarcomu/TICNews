@@ -1,0 +1,35 @@
+	<main>
+	<div class="formulario">
+
+		<form ng-submit="vm.funciones.login()">
+
+			<div>
+				<label for="username">Nombre de Usuario</label> <input type="text"
+					name="username" id="username" ng-model="vm.user.name">
+			</div>
+
+			<div>
+				<label for="password">Password</label> <input type="password"
+					name="password" id="password" ng-model="vm.user.password">
+			</div>
+			
+			<div ng-show="vm.register == true">
+				<label for="passwordRepeated">Repite Password</label> <input
+					type="password" name="passwordRepeated" id="passwordRepeated">
+			</div>
+
+			<div ng-show="vm.register == true">
+				<label for="email">Email</label> <input type="email" name="email" ng-model="vm.user.email"
+					id="email">
+			</div>
+
+			<div ng-show="vm.register == true">
+				<input type="submit" value="Registrate" class="button"/>
+			</div>
+			<div ng-show="vm.register  == false">
+				<input type="submit" value="Entrar" class="button"/>
+			</div>
+		</form>
+
+	</div>
+	</main>

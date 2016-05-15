@@ -1,0 +1,26 @@
+	<main>
+	<div class="formulario">
+
+		<form ng-submit="vm.funciones.createEditStory()">
+
+			<div>
+				<label for="title">Titulo</label> <input type="text" name="title"
+					id="title" ng-model="vm.story.title">
+			</div>
+
+			<div>
+				<label for="url">Link a la noticia</label> <input type="url"
+					name="url" id="url" ng-model="vm.story.url">
+			</div>
+
+			<div>
+				<label for="text">Contenido</label>
+				<textarea name="text" id="text" ng-model="vm.story.text"></textarea>
+			</div>
+
+			<div>
+				<input type="submit" value="Enviar" class="button">
+			</div>
+		</form>
+	</div>
+	</main>

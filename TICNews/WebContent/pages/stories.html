@@ -6,17 +6,30 @@
 		</h1>
 		<p>
 			enviado por <a
-				href="#"
+				ng-href="#/user/{{ story.value.id }}"
 				class="enviadoPor">{{story.value.name}}</a>:
 		</p>
 		<p>{{story.key.text}}</p>
 
 		<div class="feedback">
-
-			<span class="comentarios"><a
-				ng-href="#/story/{{ story.key.id }}">comentarios</a></span> <span
-				class="like"><i class="fa fa-thumbs-o-up"></i></span> <span
-				class="dislike"><i class="fa fa-thumbs-o-down"></i></span> <span>{{story.key.likes}}</span>
+		<div ng-show="vm.myStories == true"> </div>
+			<span class="comentarios"><a ng-href="#/story/{{ story.key.id }}">comentarios</a></span> 
+			
+			<span ng-show="vm.myStories == true"
+					class="edit"><a
+					ng-href="#/editStory/{{ story.key.id }}"> <i
+					class="fa fa-pencil-square-o"></i> editar
+			</a></span>
+			<span ng-show="vm.myStories == true"
+					class="edit"><a
+					ng-click="vm.funciones.deleteStory(story.key.id)"> <i
+					class="fa fa-trash-o"></i> borrar
+			</a></span>
+			
+						
+			<span ng-show="vm.myStories == false" class="like"><i class="fa fa-thumbs-o-up"></i></span> 
+			<span ng-show="vm.myStories == false" class="dislike"><i class="fa fa-thumbs-o-down"></i></span> 
+			<span ng-show="vm.myStories == false">{{story.key.likes}}</span>
 
 		</div>
 

@@ -5,9 +5,30 @@
 		<a ng-href="{{vm.story.url}}">{{vm.story.title}}</a>
 	</h1>
 	<p>
-		enviado por <a href="#" class="enviadoPor">Pepe</a>:
+		enviado por <a ng-href="#/user/{{ vm.user.id }}" class="enviadoPor">{{vm.user.name}}</a>:
 	</p>
 	<p>{{vm.story.text}}</p>
+
+	<div class="newComment" ng-show="vm.session.id != -1">
+
+		<form ng-submit="vm.funciones.addComment()">
+
+			<fieldset>
+				<legend>Comenta</legend>
+
+				<div>
+					<label for="nuevoComent"></label>
+					<textarea name="nuevoComent" id="nuevoComent" ng-model="vm.newComment.text"></textarea>
+				</div>
+
+				<input type="submit" value="enviar" class="button">
+
+			</fieldset>
+
+
+		</form>
+
+	</div>
 
 	<div ng-repeat="comment in vm.comments">
 
@@ -15,7 +36,7 @@
 
 			<h2>
 				<a
-					href="#">Pepe</a>
+					ng-href="#/user/{{ comment.value.id }}">{{comment.value.name}}</a>
 			</h2>
 
 			<p>{{comment.key.text}}</p>

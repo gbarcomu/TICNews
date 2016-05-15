@@ -1,22 +1,28 @@
-<nav>
+<nav ng-controller="loginCtrl as vm">
 
-	<a href="#"><img src="logo.png"
-		alt=""></a>
+	<a ng-href="#/"><img src="logo.png" alt=""></a>
 	<ul class="menu">
 
-		<li><a href="#">PORTADA</a></li>
-		<li><a href="#">MAS VALORADAS</a></li>
-		<li><a href="#">MIS NOTICIAS</a></li>
+		<li><a ng-href="#/">PORTADA</a></li>
+		<li><a ng-href="#/">MAS VALORADAS</a></li>
+		<li ng-show="vm.session.id != -1"><a ng-href="#/myStories/{{vm.session.id}}">MIS NOTICIAS</a></li>
 	</ul>
 
 
 
 	<ul class="menuRight">
 
-				<li><a href="#">login</a></li>
-				<li><a href="#">registrarse</a></li>
+		<div ng-show="vm.session.id == -1">
+			<li><a ng-href="#/login">login</a></li>
+			<li><a ng-href="#/register">registrarse</a></li>
+		</div>
+		<div ng-show="vm.session.id != -1">
+			<li><a ng-href="#/user/{{vm.session.id}}">{{vm.session.name}}</a></li>
+			<li><a ng-click="vm.funciones.logout()">logout</a></li>
+		</div>
+
 	</ul>
 
-	<button type="button" class="button"
-		onclick="location.href='#'/>'">enviar noticia</button>
+	<a ng-show="vm.session.id != -1" class="button" ng-href="#/newStory">enviar
+		noticia</a>
 </nav>
