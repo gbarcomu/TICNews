@@ -79,7 +79,7 @@ public class ListUserRest {
 			session.setAttribute("user", user);
 		}
 
-		return null;
+		return Response.status(201).build();
 	}
 	
 	@POST
@@ -97,7 +97,7 @@ public class ListUserRest {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		System.out.println(user.getId());
-		return null;
+		return Response.status(201).build();
 	}
 
 	@DELETE
@@ -105,6 +105,6 @@ public class ListUserRest {
 
 		HttpSession session = request.getSession(false);
 		session.invalidate();
-		return null;
+		return Response.status(201).build();
 	}
 }

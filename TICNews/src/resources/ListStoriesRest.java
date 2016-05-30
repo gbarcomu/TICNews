@@ -3,6 +3,7 @@ package resources;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,20 @@ public class ListStoriesRest {
 	}
 	
 	@GET
+	@Path("/likes")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Map<News, User> getStoriesOrderedByLikesJSON(@Context HttpServletRequest request) {
+
+		Connection conn = (Connection) sc.getAttribute("dbConn");
+		NewsDAO newsDao = new JDBCNewsDAOImpl();
+		newsDao.setConnection(conn);
+		UserDAO userDao = new JDBCUserDAOImpl();
+		userDao.setConnection(conn);
+		
+		return createNewsUserMapByLikes(newsDao, userDao);
+	}
+	
+	@GET
 	@Path("/{id: [0-9]+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public News getStoryByIdJSON(@PathParam("id") long IDStory, @Context HttpServletRequest request) {
@@ -85,6 +100,26 @@ public class ListStoriesRest {
 		return newsMap;
 	}
 	
+	private Map<News, User> createNewsUserMapByLikes(NewsDAO newsDAO, UserDAO userDAO) {
+
+		List<News> newsList = newsDAO.getAllOrdered();
+		Map<News, User> newsMap = new LinkedHashMap<News, User>();
+
+		Iterator<News> it = newsList.iterator();
+
+		while (it.hasNext()) {
+			News news = (News) it.next();
+			news.setDateStamp(null);
+			news.setTimeStamp(null);
+			User user = userDAO.get(news.getOwner());
+			user.setPassword(null);
+			newsMap.put(news, user);
+
+		}
+
+		return newsMap;
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response post(News story, @Context HttpServletRequest request) throws Exception {
@@ -94,7 +129,7 @@ public class ListStoriesRest {
 		newsDao.setConnection(conn);
 
 		newsDao.add(story);
-		return null;
+		return Response.status(201).build();
 	}
 	
 	@PUT
@@ -104,21 +139,8 @@ public class ListStoriesRest {
 		Connection conn = (Connection) sc.getAttribute("dbConn");
 		NewsDAO newsDao = new JDBCNewsDAOImpl();
 		newsDao.setConnection(conn);
-
-		newsDao.delete(story.getId());	
-		newsDao.add(editNews(story));
-		return null;
-	}
-	
-	private News editNews(News oldNews) {
-
-		News story = new News();
-		story.setTitle(oldNews.getTitle());
-		story.setUrl(oldNews.getUrl());
-		story.setText(oldNews.getText());
-		story.setOwner(oldNews.getOwner());
-
-		return story;
+		newsDao.save(story);
+		return Response.status(201).build();
 	}
 	
 	@DELETE
@@ -131,6 +153,6 @@ public class ListStoriesRest {
 		System.out.println(IDStory);
 		newsDao.delete(IDStory);
 		
-		return null;
+		return Response.status(201).build();
 	}
 }

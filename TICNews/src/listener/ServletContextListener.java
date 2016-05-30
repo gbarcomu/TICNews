@@ -88,15 +88,15 @@ public class ServletContextListener implements javax.servlet.ServletContextListe
 					+ "'De toda la vida ha habido gente a la que le han dado un cargo de autoridad y lo ha ejercido con orgullo. El poder atrae, y por eso tambien hay quienes, a pesar de no haber recibido cargo alguno, se han autoproclamado sultanes, gobernadores o emperadores de la forma mas extravagante posible.',"
 					+ "'http://www.cookingideas.es/by-the-face-20160307.html','ocio',25 "
 					+ "FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from News where id=0)  LIMIT 1");
-			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category) "
+			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category,likes) "
 					+ "SELECT 1,'Un dron de Hacienda descubre 2.500 viviendas ilegales en Menorca',"
-					+ "'Un dron de Hacienda descubre 2.500 viviendas irregulares en Menorca, isla verde que es Reserva de la Biosfera desde 1993. La cifra no incluye las posibles irregularidades urbanisticas en los pueblos de Sant Lluis, Mao y Ciutadella, ya que o no se dispone de datos o aun se estan procesando.',"
-					+ "'http://www.cronicaglobal.com/es/notices/2016/03/un-dron-de-hacienda-descubre-2.500-viviendas-ilegales-en-menorca-34556.php','actualidad' "
+					+ "'Un dron de Hacienda descubre 2.500 viviendas irregulares en Menorca, isla verde que es Reserva de la Biosfera desde 1993. La cifra no incluye las posibles irregularidades urbanisticas en los pueblos de Sant Lluis, Mae y Ciutadella, ya que o no se dispone de datos o aun se estan procesando.',"
+					+ "'http://www.cronicaglobal.com/es/notices/2016/03/un-dron-de-hacienda-descubre-2.500-viviendas-ilegales-en-menorca-34556.php','actualidad',40 "
 					+ "FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from News where id=1)  LIMIT 1");
-			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category) "
+			stmt.executeUpdate("INSERT INTO News (owner,title,text,url,category,likes) "
 					+ "SELECT 0,'Darth Maul - Aprendiz (Un Fan-Film de Star Wars)',"
 					+ "'Como la mayoria de los fans de Star Wars, el director de cine con sede en Alemania Shawn Bu penso que Darth Maul, el malo en Star Wars: Episodio I - La Amenaza Fantasma, merecia mas tiempo en pantalla. Para ayudar a solucionar este problema, Shawn y su equipo pasaron casi dos anos la creacion de este cortometraje.',"
-					+ "'https://www.youtube.com/watch?v=Djo_91jN3Pk','ocio' "
+					+ "'https://www.youtube.com/watch?v=Djo_91jN3Pk','ocio', 12 "
 					+ "FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from News where id=2)  LIMIT 1");
 						
 			stmt.executeUpdate("INSERT INTO Comment (owner,news,text) "

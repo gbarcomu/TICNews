@@ -10,6 +10,7 @@ import model.News;
 public interface NewsDAO {
 	
 	public List<News> getAll();
+	public List<News> getAllOrdered();	
 	public List<News>  getAllByOwner(long owner);
 	public List<News> getAllByCategory(String category);
 	public News get(long id);	

@@ -27,8 +27,8 @@
 			</a></span>
 			
 						
-			<span ng-show="vm.myStories == false" class="like"><i class="fa fa-thumbs-o-up"></i></span> 
-			<span ng-show="vm.myStories == false" class="dislike"><i class="fa fa-thumbs-o-down"></i></span> 
+			<span ng-show="vm.myStories == false" class="like"><i class="fa fa-thumbs-o-up" ng-click="vm.funciones.like($index)"></i></span> 
+			<span ng-show="vm.myStories == false" class="dislike"><i class="fa fa-thumbs-o-down" ng-click="vm.funciones.dislike($index)"></i></span> 
 			<span ng-show="vm.myStories == false">{{story.key.likes}}</span>
 
 		</div>

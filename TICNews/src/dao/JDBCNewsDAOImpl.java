@@ -238,5 +238,39 @@ public class JDBCNewsDAOImpl implements NewsDAO {
 		this.conn = conn;
 	}
 
+	@Override
+	public List<News> getAllOrdered() {
+		if (conn == null) return null;
+		
+		ArrayList<News> newsList = new ArrayList<News>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM News ORDER BY likes DESC");
+						
+			while ( rs.next() ) {
+				News news = new News();
+				news.setId(rs.getLong("id"));
+				news.setOwner(rs.getLong("owner"));
+				news.setDateStamp(rs.getDate("datestamp"));
+				news.setTimeStamp(rs.getTime("timestamp"));
+				news.setTitle(rs.getString("title"));
+				news.setText(rs.getString("text"));
+				news.setUrl(rs.getString("url"));
+				news.setCategory(rs.getString("category"));
+				news.setLikes(rs.getInt("likes"));
+				news.setHits(rs.getInt("hits"));
+				newsList.add(news);
+				logger.info("fetching newsList: "+news.getId()+" "+news.getOwner()+" "+news.getDateStamp()+" "+news.getTimeStamp()+" "+news.getTitle()
+					+" "+news.getText()+" "+news.getUrl()+" "+news.getCategory()+" "+news.getLikes()+" "+news.getHits());
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return newsList;
+	}
+
 	
 }

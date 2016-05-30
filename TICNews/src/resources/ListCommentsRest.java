@@ -78,6 +78,6 @@ public class ListCommentsRest {
 		commentDao.setConnection(conn);
 
 		commentDao.add(comment);
-		return null;
+		return Response.status(201).build();
 	}
 }

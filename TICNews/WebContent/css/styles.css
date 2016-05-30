@@ -1,5 +1,17 @@
 /* principal */
 
+i {
+	cursor: pointer;
+}
+a {
+	cursor: pointer;
+}
+
+#error {
+	
+	color: red;
+}
+
 html,
 body {
 	margin: 0;
